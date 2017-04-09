@@ -14,15 +14,6 @@ Moon.component('m-header', {
   template: buildTemplate(components.Header),
 });
 
-Moon.component('m-list', {
-  template: buildTemplate(components.ProcessList),
-  data: {
-    items: [
-      'item1',
-    ],
-  },
-});
-
 
 Moon.component('m-worker-box', {
   props: ['title'],
