@@ -34,10 +34,17 @@ Moon.component('m-worker-box', {
     init() {
       if (utils.hasWorker()) {
         const worker = new Worker('workers/dedicatedWorker.js');
+
+        // Workerからレスポンスを受け取る
         worker.addEventListener('message', (evt) => {
           console.info('==== main thread received ====');
           console.info(evt.data);
         });
+        // Workerのエラーを受け取る
+        worker.addEventListener('error', (err) => {
+          console.error(err);
+        });
+
         this.set('worker', worker);
       }
     },
@@ -46,11 +53,61 @@ Moon.component('m-worker-box', {
     clickAction() {
       const worker = this.get('worker');
       if (worker !== null) {
+        // Workerに送信
         worker.postMessage({
           message: 'to worker',
         });
+      } else {
+        console.info('Worker does not exitst');
       }
     },
+  },
+});
+
+
+Moon.component('m-shared-worker-box', {
+  props: ['title'],
+  template: buildTemplate(components.SharedWorkerBox),
+  data: {
+    worker: null,
+    value1: 0,
+    value2: 0,
+    result: 0,
+  },
+  hooks: {
+    init() {
+      if (utils.hasWorker()) {
+        const worker = new SharedWorker('workers/sharedWorker.js');
+        // const worker = new Worker('workers/sharedWorker.js');
+        worker.port.start();
+
+        // Workerからレスポンスを受け取る
+        worker.port.addEventListener('message', (evt) => {
+        // worker.addEventListener('message', (evt) => {
+          console.info('==== main thread received ====');
+          const newResult = evt.data;
+          const oldResult = this.get('result');
+          if (newResult !== oldResult) {
+            this.set('result', newResult);
+          }
+        });
+        // Workerのエラーを受け取る
+        worker.addEventListener('error', (err) => {
+          console.error(err);
+        });
+
+        this.set('worker', worker);
+      }
+    },
+    updated() {
+      const worker = this.get('worker');
+      if (worker !== null) {
+        worker.port.postMessage([this.get('value1'), this.get('value2')]);
+        // worker.postMessage([this.get('value1'), this.get('value2')]);
+      }
+    },
+  },
+  methods: {
   },
 });
 

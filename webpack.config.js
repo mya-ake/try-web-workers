@@ -10,6 +10,7 @@ module.exports = {
   entry: {
     app: './src/app.js',
     'workers/dedicatedWorker': './src/js/workers/dedicatedWorker.js',
+    'workers/sharedWorker': './src/js/workers/sharedWorker.js',
   },
   output: {
     path: path.resolve(__dirname, './public'),

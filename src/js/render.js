@@ -4,7 +4,10 @@ new Moon({
   el: '#app-header',
 });
 
-
 new Moon({
   el: '#area-dedicated-worker',
+});
+
+new Moon({
+  el: '#area-shared-worker',
 });

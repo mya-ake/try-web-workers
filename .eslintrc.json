@@ -37,7 +37,7 @@
         "no-console": [
             "error",
             {
-                "allow": ["info", "err"]
+                "allow": ["info", "error"]
             }
         ],
         "comma-dangle": [
