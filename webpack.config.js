@@ -9,6 +9,7 @@ const extractPostCSS = new ExtractTextPlugin({
 module.exports = {
   entry: {
     app: './src/app.js',
+    'workers/dedicatedWorker': './src/js/workers/dedicatedWorker.js',
   },
   output: {
     path: path.resolve(__dirname, './public'),
@@ -25,7 +26,6 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        // exclude: /node_modules/,
         use: ExtractTextPlugin.extract({
           use: [
             'css-loader',
