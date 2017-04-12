@@ -1,4 +1,4 @@
-const wokerBox =`
+const template =`
 <div>
   <h2>{{title}}</h2>
   <input type="number" m-model="value1">
@@ -7,4 +7,4 @@ const wokerBox =`
 </div>
 `;
 
-export default wokerBox;
+export default template;

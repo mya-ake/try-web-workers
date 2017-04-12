@@ -2,6 +2,7 @@ import Moon from 'moonjs';
 
 import components from './../components/exports.js';
 import utils from './utils.js';
+import IndexedDB from './lib/IndexedDB.js';
 
 
 const buildTemplate = (template) => {
@@ -99,6 +100,35 @@ Moon.component('m-shared-worker-box', {
     },
   },
   methods: {
+  },
+});
+
+Moon.component('m-indexed-db', {
+  template: buildTemplate(components.IndexedDB),
+  data: {
+    indexedDb: null,
+  },
+  hooks: {
+    init() {
+      if (IndexedDB.hasIndexDB() === true) {
+        this.set('indexedDb', new IndexedDB({
+          dbName: 'sample-db',
+          version: 1,
+        }));
+      }
+    },
+  },
+  methods: {
+    clickOpen() {
+      const indexedDb = this.get('indexedDb');
+      if (indexedDb !== null) {
+        indexedDb.open({
+          error() {
+            console.error('error');
+          },
+        });
+      }
+    },
   },
 });
 

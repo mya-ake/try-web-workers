@@ -11,3 +11,7 @@ new Moon({
 new Moon({
   el: '#area-shared-worker',
 });
+
+new Moon({
+  el: '#area-indexed-db',
+});
