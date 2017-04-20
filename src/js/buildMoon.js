@@ -75,7 +75,7 @@ Moon.component('m-shared-worker-box', {
 
         // Workerからレスポンスを受け取る
         worker.port.addEventListener('message', (evt) => {
-        // worker.addEventListener('message', (evt) => {
+          // worker.addEventListener('message', (evt) => {
           console.info('==== main thread received ====');
           const newResult = evt.data;
           const oldResult = this.get('result');
@@ -107,13 +107,23 @@ Moon.component('m-indexed-db', {
   template: buildTemplate(components.IndexedDB),
   data: {
     indexedDb: null,
+    user: {
+      name: '',
+      email: '',
+    },
+    gotUser: {
+      name: '',
+      email: '',
+    },
+    searchId: '',
+    searchResult: true,
   },
   hooks: {
     init() {
       if (IndexedDB.hasIndexDB() === true) {
         this.set('indexedDb', new IndexedDB({
           dbName: 'sample-db',
-          version: 1,
+          version: 2,
         }));
       }
     },
@@ -127,6 +137,45 @@ Moon.component('m-indexed-db', {
             console.error('error');
           },
         });
+      }
+    },
+    submitSave() {
+      const indexedDb = this.get('indexedDb');
+      if (indexedDb !== null) {
+        const user = this.get('user');
+        indexedDb.write({
+          objectName: indexedDb.STORES.USERS,
+          value: user,
+        });
+      }
+    },
+    submitGet() {
+      const indexedDb = this.get('indexedDb');
+      if (indexedDb !== null) {
+        indexedDb.read({
+          objectName: indexedDb.STORES.USERS,
+          key: Number(this.get('searchId')),
+        })
+          .then((result) => {
+            if (result) {
+              this.set('searchResult', true);
+              this.set('gotUser', result);
+            } else {
+              this.set('searchResult', false);
+              this.set('gotUser', {
+                name: '',
+                email: '',
+              });
+            }
+          })
+          .catch((err) => {
+            this.set('searchResult', false);
+            console.error(err);
+            this.set('gotUser', {
+              name: '',
+              email: '',
+            });
+          });
       }
     },
   },
