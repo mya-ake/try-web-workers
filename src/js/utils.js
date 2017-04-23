@@ -8,7 +8,11 @@ const hasWorker = () => {
   }
 };
 
+const buildTemplate = (template) => {
+  return template.replace(/\s/, '');
+};
 
 export default {
   hasWorker: hasWorker,
+  buildTemplate: buildTemplate,
 };

@@ -1,24 +1,19 @@
 import Moon from 'moonjs';
 
 import components from './../components/exports.js';
+import services from './services/exports.js';
 import utils from './utils.js';
 import IndexedDB from './lib/IndexedDB.js';
 
-
-const buildTemplate = (template) => {
-  return template.replace(/\s/, '');
-};
-
-
 Moon.component('m-header', {
   props: ['title'],
-  template: buildTemplate(components.Header),
+  template: utils.buildTemplate(components.Header),
 });
 
 
 Moon.component('m-worker-box', {
   props: ['title'],
-  template: buildTemplate(components.WorkerBox),
+  template: utils.buildTemplate(components.WorkerBox),
   data: {
     worker: null,
   },
@@ -59,7 +54,7 @@ Moon.component('m-worker-box', {
 
 Moon.component('m-shared-worker-box', {
   props: ['title'],
-  template: buildTemplate(components.SharedWorkerBox),
+  template: utils.buildTemplate(components.SharedWorkerBox),
   data: {
     worker: null,
     value1: 0,
@@ -104,7 +99,7 @@ Moon.component('m-shared-worker-box', {
 });
 
 Moon.component('m-indexed-db', {
-  template: buildTemplate(components.IndexedDB),
+  template: utils.buildTemplate(components.IndexedDB),
   data: {
     indexedDb: null,
     user: {
@@ -180,6 +175,8 @@ Moon.component('m-indexed-db', {
     },
   },
 });
+
+Moon.component('m-fetch', services.Fetch);
 
 
 export default Moon;

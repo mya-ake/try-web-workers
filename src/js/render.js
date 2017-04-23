@@ -15,3 +15,7 @@ new Moon({
 new Moon({
   el: '#area-indexed-db',
 });
+
+new Moon({
+  el: '#area-fetch',
+});
